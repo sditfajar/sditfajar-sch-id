@@ -4,7 +4,7 @@ Panduan implementasi SEO untuk seluruh halaman proyek (Next.js 16 App Router, Re
 
 Semua path relatif terhadap root repositori. Kode memakai **Metadata API** bawaan Next.js, tanpa library tambahan.
 
----
+------
 
 ## 1. Ringkasan Strategi
 
