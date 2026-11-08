@@ -414,8 +414,8 @@ export function RegistrationWizard({ paymentSettings }: RegistrationWizardProps)
           )}
         </div>
 
-        {/* Tombol Aksi di Bawah Form */}
-        <div className="mt-8 pt-5 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-3">
+        {/* Tombol Aksi di Bawah Form (Playful Tactile Stitch: tombol chunky 3D) */}
+        <div className="mt-8 pt-5 border-t border-slate-100 flex flex-col-reverse sm:flex-row items-center gap-3">
           {currentStep > 1 && (
             <Button
               type="button"
@@ -424,7 +424,7 @@ export function RegistrationWizard({ paymentSettings }: RegistrationWizardProps)
               disabled={isSubmitting}
               iconLeft={<ArrowLeft className="h-4 w-4" />}
               aria-label="Kembali ke form sebelumnya"
-              className="w-full sm:w-auto h-11 px-5 rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold"
+              className="w-full sm:w-auto h-12 px-6 rounded-2xl border-2 border-slate-200 bg-white text-[#0F172A] font-bold shadow-[0_3px_0_#cbd5e1] hover:bg-slate-50 active:translate-y-0.5 active:shadow-[0_1px_0_#cbd5e1] transition-all cursor-pointer"
             >
               <span>Sebelumnya</span>
             </Button>
@@ -442,8 +442,8 @@ export function RegistrationWizard({ paymentSettings }: RegistrationWizardProps)
                   : "Lanjut ke form pembayaran dan konfirmasi"
               }
               className={cn(
-                "w-full sm:w-auto h-11 px-6 rounded-xl bg-[#1D4ED8] hover:bg-[#0037B0] text-white font-bold shadow-sm transition-all sm:ml-auto",
-                currentStep === 1 ? "w-full sm:min-w-[200px]" : "sm:min-w-[170px]"
+                "w-full sm:w-auto h-12 px-7 rounded-2xl bg-[#1D4ED8] hover:brightness-105 text-white font-bold shadow-[0_4px_0_#173fa8] active:translate-y-1 active:shadow-[0_1px_0_#173fa8] transition-all sm:ml-auto cursor-pointer",
+                currentStep === 1 ? "sm:min-w-[220px]" : "sm:min-w-[180px]"
               )}
             >
               <span>
@@ -458,7 +458,7 @@ export function RegistrationWizard({ paymentSettings }: RegistrationWizardProps)
               disabled={isSubmitting}
               iconRight={!isSubmitting ? <Send className="h-4 w-4" /> : undefined}
               aria-label="Kirim formulir pendaftaran SPMB"
-              className="w-full sm:w-auto sm:ml-auto h-11 px-7 rounded-xl bg-[#1D4ED8] hover:bg-[#0037B0] text-white font-bold shadow-sm transition-all"
+              className="w-full sm:w-auto sm:ml-auto h-12 px-8 rounded-2xl bg-[#F97316] hover:brightness-105 text-[#0F172A] font-extrabold shadow-[0_4px_0_#9d4300] active:translate-y-1 active:shadow-[0_1px_0_#9d4300] transition-all cursor-pointer text-sm sm:text-base"
             >
               Kirim Pendaftaran
             </Button>

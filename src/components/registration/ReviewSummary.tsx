@@ -26,20 +26,20 @@ export function ReviewSummary({ data, onEditStep, className }: ReviewSummaryProp
   return (
     <div className={`space-y-4 text-left ${className || ""}`}>
       {/* Bagian Data Siswa */}
-      <div className="rounded-2xl bg-white border border-slate-200/90 shadow-2xs p-4 sm:p-5 transition-all">
+      <div className="rounded-3xl bg-white border border-[#DAE2FD]/80 shadow-[0_4px_20px_rgba(29,78,216,0.03)] p-3.5 sm:p-5 transition-all">
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-lg bg-blue-50 text-[#1D4ED8] flex items-center justify-center">
+          <div className="flex items-center gap-2.5">
+            <div className="h-8 w-8 rounded-xl bg-[#E2E7FF] text-[#1D4ED8] flex items-center justify-center shadow-2xs">
               <User className="h-4 w-4" aria-hidden="true" />
             </div>
-            <h4 className="text-sm font-bold text-[#0F172A]">Data Calon Siswa</h4>
+            <h4 className="text-sm font-extrabold text-[#0F172A]">Data Calon Siswa</h4>
           </div>
           <Button
             type="button"
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => onEditStep(1)}
-            className="text-xs min-h-[36px] h-8 text-[#1D4ED8] hover:text-[#0037B0] hover:bg-blue-50 px-2.5 rounded-lg"
+            className="text-xs min-h-[36px] h-8 text-[#1D4ED8] border-blue-200 bg-blue-50/70 hover:bg-blue-100/80 font-bold px-3 rounded-xl shadow-2xs"
             aria-label="Ubah data calon siswa"
           >
             <Edit3 className="h-3.5 w-3.5 mr-1" />
@@ -103,20 +103,20 @@ export function ReviewSummary({ data, onEditStep, className }: ReviewSummaryProp
       </div>
 
       {/* Bagian Data Orang Tua */}
-      <div className="rounded-2xl bg-white border border-slate-200/90 shadow-2xs p-4 sm:p-5 transition-all">
+      <div className="rounded-3xl bg-white border border-[#DAE2FD]/80 shadow-[0_4px_20px_rgba(29,78,216,0.03)] p-3.5 sm:p-5 transition-all">
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-lg bg-orange-50 text-[#F97316] flex items-center justify-center">
+          <div className="flex items-center gap-2.5">
+            <div className="h-8 w-8 rounded-xl bg-[#FFDBCA] text-[#9D4300] flex items-center justify-center shadow-2xs">
               <Users className="h-4 w-4" aria-hidden="true" />
             </div>
-            <h4 className="text-sm font-bold text-[#0F172A]">Data Orang Tua</h4>
+            <h4 className="text-sm font-extrabold text-[#0F172A]">Data Orang Tua</h4>
           </div>
           <Button
             type="button"
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => onEditStep(2)}
-            className="text-xs min-h-[36px] h-8 text-[#1D4ED8] hover:text-[#0037B0] hover:bg-blue-50 px-2.5 rounded-lg"
+            className="text-xs min-h-[36px] h-8 text-[#1D4ED8] border-blue-200 bg-blue-50/70 hover:bg-blue-100/80 font-bold px-3 rounded-xl shadow-2xs"
             aria-label="Ubah data orang tua"
           >
             <Edit3 className="h-3.5 w-3.5 mr-1" />
@@ -141,8 +141,7 @@ export function ReviewSummary({ data, onEditStep, className }: ReviewSummaryProp
             <dt className="text-slate-500 font-medium">Pekerjaan Ayah</dt>
             <dd className="text-slate-800 font-medium mt-0.5">{data.father_job || "-"}</dd>
           </div>
-          <div className="sm:hidden border-t border-slate-100 pt-2 my-1" />
-          <div>
+          <div className="border-t border-slate-100 pt-2 sm:border-0 sm:pt-0">
             <dt className="text-slate-500 font-medium">Nama Ibu</dt>
             <dd className="font-bold text-[#0F172A] text-sm mt-0.5">
               {data.mother_name || "-"}

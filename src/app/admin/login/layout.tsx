@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Masuk Admin — SPMB SDIT Fajar",
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: "Masuk Panitia",
 };
 
 export default function AdminLoginLayout({

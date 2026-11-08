@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
 import {
   MapPin,
   Clock,
@@ -33,30 +34,36 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
 }
 
 export function HomeFooter() {
+  const router = useRouter();
+  const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-    // Scroll to relevant section or prompt
+
     const query = searchQuery.toLowerCase();
     if (query.includes("biaya") || query.includes("daftar") || query.includes("ppdb") || query.includes("spmb")) {
-      window.location.href = "/spmb";
-    } else if (query.includes("visi") || query.includes("misi")) {
-      const el = document.getElementById("profil-sekolah");
-      el?.scrollIntoView({ behavior: "smooth" });
+      router.push("/spmb");
+      return;
+    }
+
+    let targetId = "profil-sekolah";
+    if (query.includes("visi") || query.includes("misi")) {
+      targetId = "profil-sekolah";
     } else if (query.includes("program") || query.includes("unggul")) {
-      const el = document.getElementById("program-unggulan");
-      el?.scrollIntoView({ behavior: "smooth" });
+      targetId = "program-unggulan";
     } else if (query.includes("ekskul") || query.includes("ekstra")) {
-      const el = document.getElementById("ekstrakurikuler");
-      el?.scrollIntoView({ behavior: "smooth" });
+      targetId = "ekstrakurikuler";
     } else if (query.includes("sejarah")) {
-      const el = document.getElementById("sejarah");
+      targetId = "sejarah";
+    }
+
+    if (pathname === "/") {
+      const el = document.getElementById(targetId);
       el?.scrollIntoView({ behavior: "smooth" });
     } else {
-      const el = document.getElementById("profil-sekolah");
-      el?.scrollIntoView({ behavior: "smooth" });
+      router.push(`/#${targetId}`);
     }
   };
 
@@ -229,4 +236,3 @@ export function HomeFooter() {
     </footer>
   );
 }
-

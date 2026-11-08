@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, MessageCircle, Menu, X, ArrowRight, School } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Phone, MessageCircle, Menu, X, ArrowRight } from "lucide-react";
 import { SCHOOL_CONFIG } from "@/lib/config";
 
 interface HomeNavbarProps {
@@ -11,6 +12,7 @@ interface HomeNavbarProps {
 }
 
 export function HomeNavbar({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }: HomeNavbarProps) {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -73,13 +75,39 @@ export function HomeNavbar({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }:
   const waUrl = SCHOOL_CONFIG.contacts.fadil.waLink;
 
   const navLinks = [
-    { label: "Beranda", href: "#" },
-    { label: "Profil", href: "#profil-sekolah" },
-    { label: "Program", href: "#program-unggulan" },
-    { label: "Kurikulum", href: "#kurikulum" },
-    { label: "Ekstrakurikuler", href: "#ekstrakurikuler" },
-    { label: "Sejarah", href: "#sejarah" },
+    { label: "Beranda", href: "/", sectionId: "" },
+    { label: "Profil", href: "/#profil-sekolah", sectionId: "profil-sekolah" },
+    { label: "Program", href: "/#program-unggulan", sectionId: "program-unggulan" },
+    { label: "Kurikulum", href: "/#kurikulum", sectionId: "kurikulum" },
+    { label: "Ekstrakurikuler", href: "/#ekstrakurikuler", sectionId: "ekstrakurikuler" },
+    { label: "Sejarah", href: "/#sejarah", sectionId: "sejarah" },
   ];
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    sectionId: string
+  ) => {
+    setMobileMenuOpen(false);
+
+    // Jika sudah di halaman utama ("/"), gunakan smooth scroll langsung tanpa reload
+    if (pathname === "/") {
+      if (!sectionId) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.location.hash) {
+          window.history.pushState(null, "", "/");
+        }
+      } else {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `#${sectionId}`);
+        }
+      }
+    }
+    // Jika di luar halaman utama ("/spmb", dll.), Next.js Link melakukan client-side routing ke "/#sectionId"
+  };
 
   const renderBannerSegment = (keyPrefix: string) => (
     <div key={keyPrefix} className="flex items-center gap-6 sm:gap-8 px-4 shrink-0 whitespace-nowrap">
@@ -175,19 +203,23 @@ export function HomeNavbar({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }:
 
         {/* Desktop Navigation (>= 1025px) */}
         <nav className="hidden lg:flex items-center gap-1 bg-[#F2F3FF]/70 p-1.5 rounded-full border border-[#DAE2FD]/60">
-          {navLinks.map((item, idx) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                idx === 0
-                  ? "bg-[#1D4ED8] text-white shadow-sm"
-                  : "text-slate-600 hover:text-[#1D4ED8] hover:bg-white/80"
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navLinks.map((item, idx) => {
+            const isActive = idx === 0 && pathname === "/";
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.sectionId)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  isActive
+                    ? "bg-[#1D4ED8] text-white shadow-sm"
+                    : "text-slate-600 hover:text-[#1D4ED8] hover:bg-white/80"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* CTA Buttons (Desktop) & Hamburger Toggle (Mobile/Tablet) */}
@@ -253,25 +285,28 @@ export function HomeNavbar({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }:
             </div>
 
             <div className="bg-[#F2F3FF]/60 border border-[#DAE2FD]/60 rounded-2xl p-1.5 flex flex-col gap-1 backdrop-blur-xs">
-              {navLinks.map((item, idx) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-sm transition-all min-h-[44px] ${
-                    idx === 0
-                      ? "bg-white text-[#1D4ED8] shadow-xs border border-white/80"
-                      : "text-slate-700 hover:text-[#1D4ED8] hover:bg-white/80"
-                  }`}
-                >
-                  <span className="group-hover:translate-x-0.5 transition-transform">{item.label}</span>
-                  <ArrowRight
-                    className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${
-                      idx === 0 ? "text-[#1D4ED8]" : "text-slate-400 group-hover:text-[#1D4ED8]"
+              {navLinks.map((item, idx) => {
+                const isActive = idx === 0 && pathname === "/";
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.sectionId)}
+                    className={`group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-sm transition-all min-h-[44px] ${
+                      isActive
+                        ? "bg-white text-[#1D4ED8] shadow-xs border border-white/80"
+                        : "text-slate-700 hover:text-[#1D4ED8] hover:bg-white/80"
                     }`}
-                  />
-                </a>
-              ))}
+                  >
+                    <span className="group-hover:translate-x-0.5 transition-transform">{item.label}</span>
+                    <ArrowRight
+                      className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${
+                        isActive ? "text-[#1D4ED8]" : "text-slate-400 group-hover:text-[#1D4ED8]"
+                      }`}
+                    />
+                  </Link>
+                );
+              })}
             </div>
 
             <div className="pt-2 border-t border-slate-200/60 flex flex-col gap-2.5">

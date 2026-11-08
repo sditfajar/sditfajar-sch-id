@@ -77,40 +77,40 @@ export function StepPayment({
   return (
     <div className="space-y-6 text-left">
       {/* 1. Kartu Rekening Pembayaran */}
-      <div className="rounded-2xl bg-white border border-slate-200/90 shadow-2xs p-4 sm:p-6 transition-all">
-        <div className="flex items-center gap-2 mb-3 text-[#1D4ED8]">
-          <div className="h-8 w-8 rounded-lg bg-blue-50 text-[#1D4ED8] flex items-center justify-center">
+      <div className="rounded-3xl bg-white border border-[#DAE2FD]/80 shadow-[0_4px_20px_rgba(29,78,216,0.03)] p-3.5 sm:p-5 md:p-6 transition-all">
+        <div className="flex items-center gap-2.5 mb-3 text-[#1D4ED8]">
+          <div className="h-8 w-8 rounded-xl bg-[#FFDBCA] text-[#9D4300] flex items-center justify-center shadow-2xs">
             <CreditCard className="h-4 w-4" />
           </div>
-          <h4 className="text-sm font-bold text-[#0F172A]">
+          <h4 className="text-sm font-extrabold text-[#0F172A]">
             Instruksi Pembayaran Biaya Formulir
           </h4>
         </div>
-        <p className="text-xs text-slate-600 mb-3 text-pretty">
+        <p className="text-xs text-[#434655] mb-3 text-pretty">
           Silakan lakukan transfer biaya pendaftaran formulir ke nomor rekening resmi SDIT Fajar berikut:
         </p>
 
-        <div className="bg-slate-50/80 rounded-xl p-4 space-y-2.5 border border-slate-200/80 text-xs">
-          <div className="flex justify-between items-center">
-            <span className="text-slate-500 font-medium">Bank Tujuan:</span>
+        <div className="bg-[#F2F3FF] rounded-2xl p-3.5 sm:p-4 space-y-2.5 border border-[#DAE2FD] text-xs">
+          <div className="flex justify-between items-center gap-2 flex-wrap sm:flex-nowrap">
+            <span className="text-[#434655] font-medium">Bank Tujuan:</span>
             <span className="font-bold text-[#0F172A]">{bankName}</span>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-slate-500 font-medium">Nomor Rekening:</span>
+          <div className="flex justify-between items-center gap-2 flex-wrap sm:flex-nowrap">
+            <span className="text-[#434655] font-medium">Nomor Rekening:</span>
             <div className="flex items-center gap-2">
-              <span className="font-mono font-extrabold text-[#0F172A] tabular-nums text-sm sm:text-base">
+              <span className="font-mono font-black text-[#0F172A] tabular-nums text-sm sm:text-base">
                 {accountNo}
               </span>
               <CopyButton text={accountNo} />
             </div>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-slate-500 font-medium">Atas Nama:</span>
+          <div className="flex justify-between items-center gap-2 flex-wrap sm:flex-nowrap">
+            <span className="text-[#434655] font-medium">Atas Nama:</span>
             <span className="font-semibold text-slate-800">{accountName}</span>
           </div>
-          <div className="flex justify-between items-center pt-2 border-t border-slate-200">
-            <span className="text-slate-500 font-medium">Nominal Biaya:</span>
-            <span className="font-black text-[#1D4ED8] tabular-nums text-base">
+          <div className="flex justify-between items-center gap-2 flex-wrap sm:flex-nowrap pt-2 border-t border-[#DAE2FD]">
+            <span className="text-[#434655] font-medium">Nominal Biaya:</span>
+            <span className="font-black text-[#1D4ED8] tabular-nums text-base sm:text-lg">
               {formatRupiah(amount)}
             </span>
           </div>
@@ -118,12 +118,12 @@ export function StepPayment({
       </div>
 
       {/* 2. Upload Bukti Bayar */}
-      <div className="space-y-2 rounded-2xl bg-white border border-slate-200/90 shadow-2xs p-4 sm:p-6">
-        <label className="text-sm font-bold text-[#0F172A] flex items-center justify-between">
+      <div className="space-y-2.5 rounded-3xl bg-white border border-[#DAE2FD]/80 shadow-[0_4px_20px_rgba(29,78,216,0.03)] p-3.5 sm:p-5 md:p-6">
+        <div className="text-sm font-extrabold text-[#0F172A] flex items-center justify-between">
           <span>
             Unggah Foto Bukti Transfer <span className="text-red-500">*</span>
           </span>
-        </label>
+        </div>
         <UploadProof
           file={file}
           onFileSelect={onFileSelect}
@@ -141,23 +141,23 @@ export function StepPayment({
 
       {/* 3. Ringkasan Isian */}
       <div className="space-y-2 pt-1">
-        <h4 className="text-sm font-bold text-[#0F172A]">
+        <h4 className="text-sm font-extrabold text-[#0F172A]">
           Periksa Kembali Data Anda
         </h4>
-        <p className="text-xs text-slate-500 text-pretty">
+        <p className="text-xs text-[#434655] text-pretty">
           Pastikan semua informasi sudah benar sebelum mengirimkan pendaftaran.
         </p>
         <ReviewSummary data={currentValues} onEditStep={onEditStep} />
       </div>
 
       {/* 4. Pernyataan Persetujuan & PDP */}
-      <div className="rounded-2xl bg-white border border-slate-200/90 shadow-2xs p-4 sm:p-6 space-y-3">
-        <div className="flex items-center gap-2 text-[#10B981]">
-          <div className="h-8 w-8 rounded-lg bg-emerald-50 text-[#10B981] flex items-center justify-center">
+      <div className="rounded-3xl bg-white border border-[#DAE2FD]/80 shadow-[0_4px_20px_rgba(29,78,216,0.03)] p-3.5 sm:p-5 md:p-6 space-y-3">
+        <div className="flex items-center gap-2.5 text-[#10B981]">
+          <div className="h-8 w-8 rounded-xl bg-[#ECFDF5] text-[#047857] flex items-center justify-center shadow-2xs">
             <ShieldCheck className="h-4 w-4" />
           </div>
-          <h4 className="text-sm font-bold text-[#0F172A]">
-            Pernyataan Kebenaran Data & Privasi
+          <h4 className="text-sm font-extrabold text-[#0F172A]">
+            Pernyataan Kebenaran Data &amp; Privasi
           </h4>
         </div>
 

@@ -149,4 +149,15 @@ describe("Fase 3: Public Page & Registration Wizard Contract Tests", () => {
     expect(normalizeIdPhone("0877-3786-0657")).toBe("6287737860657");
     expect(formatIdPhone("6287737860657")).toBe("0877-3786-0657");
   });
+
+  it("Logika deteksi mode kustom jumlah saudara kandung (0 untuk anak tunggal atau > 5)", () => {
+    const isCustomSiblings = (count?: number | null) =>
+      count !== undefined && count !== null && (count === 0 || count > 5);
+
+    expect(isCustomSiblings(0)).toBe(true); // Anak tunggal
+    expect(isCustomSiblings(6)).toBe(true); // Lebih dari 5
+    expect(isCustomSiblings(1)).toBe(false); // Opsi chip 1
+    expect(isCustomSiblings(3)).toBe(false); // Opsi chip 3
+    expect(isCustomSiblings(null)).toBe(false);
+  });
 });

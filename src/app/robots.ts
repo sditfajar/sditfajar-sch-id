@@ -1,15 +1,23 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sditfajar.sch.id";
-  const baseUrl = siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl;
-
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin", "/admin/", "/admin/*", "/api/", "/api/*", "/dev/", "/dev/*"],
+      disallow: [
+        "/admin",
+        "/admin/",
+        "/admin/*",
+        "/berhasil/",
+        "/berhasil/*",
+        "/api/",
+        "/api/*",
+        "/dev/",
+        "/dev/*",
+      ],
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

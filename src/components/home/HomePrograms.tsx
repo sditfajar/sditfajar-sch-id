@@ -1,5 +1,4 @@
 import {
-  Sparkles,
   BookOpen,
   Compass,
   Heart,

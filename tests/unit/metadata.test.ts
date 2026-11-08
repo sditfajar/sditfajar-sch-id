@@ -29,6 +29,7 @@ describe("Metadata & SEO Configuration (Fase 8)", () => {
     expect(disallow).toContain("/admin");
     expect(disallow).toContain("/admin/");
     expect(disallow).toContain("/admin/*");
+    expect(disallow).toContain("/berhasil/");
     expect(disallow).toContain("/api/");
     expect(disallow).toContain("/dev/");
 

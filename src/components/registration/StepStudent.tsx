@@ -26,13 +26,14 @@ export function StepStudent() {
     siblingsCount !== null &&
     (siblingsCount === 0 || siblingsCount > 5);
 
-  const [customMode, setCustomMode] = React.useState<boolean>(isCustomSiblings);
+  const [customMode, setCustomMode] = React.useState<boolean>(false);
+  const isCustomActive = customMode || isCustomSiblings;
 
   const siblingsRadioValue = React.useMemo(() => {
-    if (customMode) return "other";
+    if (isCustomActive) return "other";
     if (siblingsCount >= 1 && siblingsCount <= 5) return String(siblingsCount);
     return "";
-  }, [siblingsCount, customMode]);
+  }, [siblingsCount, isCustomActive]);
 
   const handleSiblingsChange = (val: string) => {
     if (val === "other") {
@@ -137,6 +138,7 @@ export function StepStudent() {
       <Field
         label="Jenis Kelamin"
         required
+        asGroup
         error={errors.gender?.message}
       >
         <Controller
@@ -147,6 +149,8 @@ export function StepStudent() {
               name="gender"
               value={field.value}
               onChange={field.onChange}
+              className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap"
+              itemClassName="w-full sm:w-auto text-center"
               options={[
                 { value: "L", label: "Laki-laki" },
                 { value: "P", label: "Perempuan" },
@@ -161,6 +165,7 @@ export function StepStudent() {
         <Field
           label="Jumlah Saudara Kandung"
           required
+          asGroup
           hint="Tidak termasuk calon siswa"
           error={errors.siblings_count?.message}
         >
@@ -169,6 +174,8 @@ export function StepStudent() {
               name="siblings_count_chips"
               value={siblingsRadioValue}
               onChange={handleSiblingsChange}
+              className="flex flex-wrap gap-2 w-full"
+              itemClassName="min-w-[44px] justify-center"
               options={[
                 { value: "1", label: "1" },
                 { value: "2", label: "2" },
@@ -178,7 +185,7 @@ export function StepStudent() {
                 { value: "other", label: "Lainnya" },
               ]}
             />
-            {customMode && (
+            {isCustomActive && (
               <div className="mt-2 flex items-center gap-2">
                 <TextInput
                   type="number"
@@ -288,9 +295,9 @@ export function StepStudent() {
               <Button
                 type="button"
                 variant="ghost"
-                size="sm"
+                size="xs"
                 onClick={() => setValue("achievements", "-", { shouldValidate: true, shouldDirty: true })}
-                className="text-[11px] h-6 px-2 text-muted hover:text-foreground"
+                className="text-[11px] h-6 px-2.5 text-muted hover:text-foreground font-medium rounded-md"
               >
                 Isi &quot;Tidak ada&quot; (-)
               </Button>
@@ -320,9 +327,9 @@ export function StepStudent() {
               <Button
                 type="button"
                 variant="ghost"
-                size="sm"
+                size="xs"
                 onClick={() => setValue("medical_conditions", "-", { shouldValidate: true, shouldDirty: true })}
-                className="text-[11px] h-6 px-2 text-muted hover:text-foreground"
+                className="text-[11px] h-6 px-2.5 text-muted hover:text-foreground font-medium rounded-md"
               >
                 Isi &quot;Tidak ada&quot; (-)
               </Button>

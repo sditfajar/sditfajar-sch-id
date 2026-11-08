@@ -179,8 +179,8 @@ export function UploadProof({
       )}
 
       {file && previewUrl && (
-        <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-card bg-surface shadow-border transition-all duration-200">
-          {/* Thumbnail preview 4:3 dengan outline 1px 10% & Tautan Tab Baru */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 p-3.5 sm:p-4 rounded-card bg-surface shadow-border transition-all duration-200">
+          {/* Thumbnail preview dengan outline 1px 10% & Tautan Tab Baru */}
           <div className="relative group shrink-0">
             <a
               href={previewUrl}
@@ -204,8 +204,8 @@ export function UploadProof({
 
           {/* Info File & Aksi */}
           <div className="flex-1 flex flex-col justify-between w-full min-w-0">
-            <div className="space-y-1 mb-3">
-              <div className="flex items-center gap-2">
+            <div className="space-y-1 mb-3 text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-accent shrink-0" />
                 <span className="text-xs font-semibold text-accent uppercase tracking-wider">
                   Foto Siap Diunggah
@@ -219,7 +219,7 @@ export function UploadProof({
               </p>
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
               <Button
                 type="button"
                 variant="secondary"

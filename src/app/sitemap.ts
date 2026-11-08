@@ -1,19 +1,19 @@
 import type { MetadataRoute } from "next";
+import { absoluteUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sditfajar.sch.id";
-  const baseUrl = siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl;
+  const lastModified = new Date();
 
   return [
     {
-      url: `${baseUrl}/`,
-      lastModified: new Date(),
+      url: absoluteUrl("/"),
+      lastModified,
       changeFrequency: "daily",
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/spmb`,
-      lastModified: new Date(),
+      url: absoluteUrl("/spmb"),
+      lastModified,
       changeFrequency: "daily",
       priority: 0.9,
     },

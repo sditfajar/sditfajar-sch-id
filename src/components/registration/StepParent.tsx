@@ -39,12 +39,12 @@ export function StepParent() {
   return (
     <div className="space-y-6 text-left">
       {/* Data Ayah */}
-      <div className="space-y-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs p-4 sm:p-6">
-        <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
-          <div className="h-7 w-7 rounded-lg bg-blue-50 text-[#1D4ED8] flex items-center justify-center">
+      <div className="space-y-4 rounded-3xl bg-white border border-[#DAE2FD]/80 shadow-[0_4px_20px_rgba(29,78,216,0.03)] p-3.5 sm:p-5 md:p-6">
+        <div className="flex items-center gap-2.5 pb-2.5 border-b border-slate-100">
+          <div className="h-8 w-8 rounded-xl bg-[#E2E7FF] text-[#1D4ED8] flex items-center justify-center shadow-2xs">
             <User className="h-4 w-4" aria-hidden="true" />
           </div>
-          <h4 className="text-sm font-bold text-[#0F172A]">
+          <h4 className="text-sm font-extrabold text-[#0F172A]">
             Data Ayah Kandung / Wali
           </h4>
         </div>
@@ -105,12 +105,12 @@ export function StepParent() {
       </div>
 
       {/* Data Ibu */}
-      <div className="space-y-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs p-4 sm:p-6">
-        <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
-          <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+      <div className="space-y-4 rounded-3xl bg-white border border-[#DAE2FD]/80 shadow-[0_4px_20px_rgba(29,78,216,0.03)] p-3.5 sm:p-5 md:p-6">
+        <div className="flex items-center gap-2.5 pb-2.5 border-b border-slate-100">
+          <div className="h-8 w-8 rounded-xl bg-[#FFE2EC] text-[#BE123C] flex items-center justify-center shadow-2xs">
             <Heart className="h-4 w-4" aria-hidden="true" />
           </div>
-          <h4 className="text-sm font-bold text-[#0F172A]">
+          <h4 className="text-sm font-extrabold text-[#0F172A]">
             Data Ibu Kandung
           </h4>
         </div>
@@ -171,11 +171,16 @@ export function StepParent() {
       </div>
 
       {/* Alamat Orang Tua */}
-      <div className="space-y-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-2.5 border-b border-slate-100">
-          <h4 className="text-sm font-bold text-[#0F172A]">
-            Alamat Tempat Tinggal Orang Tua
-          </h4>
+      <div className="space-y-4 rounded-3xl bg-white border border-[#DAE2FD]/80 shadow-[0_4px_20px_rgba(29,78,216,0.03)] p-3.5 sm:p-5 md:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pb-2.5 border-b border-slate-100">
+          <div className="flex items-center gap-2.5">
+            <div className="h-8 w-8 rounded-xl bg-[#FFDBCA] text-[#9D4300] flex items-center justify-center shadow-2xs">
+              <User className="h-4 w-4" aria-hidden="true" />
+            </div>
+            <h4 className="text-sm font-extrabold text-[#0F172A]">
+              Alamat Tempat Tinggal Orang Tua
+            </h4>
+          </div>
 
           {/* Opsi Samakan Alamat dengan Calon Siswa */}
           <Checkbox

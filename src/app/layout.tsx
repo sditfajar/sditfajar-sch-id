@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme";
+import { siteConfig, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,8 +17,6 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.sditfajar.sch.id";
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   icons: {
@@ -26,62 +25,50 @@ export const metadata: Metadata = {
     apple: "/favicon.ico",
   },
   title: {
-    default: "SPMB — SDIT Fajar",
-    template: "%s | SDIT Fajar",
+    default: siteConfig.defaultTitle,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "Sistem Penerimaan Murid Baru (SPMB) SDIT Fajar. Formulir pendaftaran siswa baru online, cepat, transparan, dan aman.",
-  applicationName: "SPMB SDIT Fajar",
-  alternates: {
-    canonical: "/",
-  },
-  keywords: [
-    "SPMB SDIT Fajar",
-    "SDIT Fajar",
-    "Pendaftaran Siswa Baru",
-    "SD Islam Terpadu Fajar",
-    "SPMB",
-    "SDIT Depok",
-  ],
-  authors: [{ name: "SDIT Fajar", url: siteUrl }],
-  creator: "SDIT Fajar",
-  publisher: "SDIT Fajar",
-  openGraph: {
-    title: "SPMB — SDIT Fajar",
-    description:
-      "Sistem Penerimaan Murid Baru (SPMB) SDIT Fajar. Daftarkan putra-putri Anda secara online dengan mudah dan aman.",
-    url: "/",
-    siteName: "SPMB SDIT Fajar",
-    locale: "id_ID",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "SPMB — SDIT Fajar",
-    description:
-      "Sistem Penerimaan Murid Baru (SPMB) SDIT Fajar. Pendaftaran online mudah dan aman.",
-  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: siteConfig.name, url: siteUrl }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: "education",
+  // JANGAN set `alternates.canonical` di sini agar tidak tertimpa ke semua sub-halaman
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
+      "max-video-preview": -1,
     },
   },
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    siteName: siteConfig.name,
+    title: siteConfig.defaultTitle,
+    description: siteConfig.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.defaultTitle,
+    description: siteConfig.description,
+  },
+  verification: process.env.NEXT_PUBLIC_GSC_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fcfcfc" },
-    { media: "(prefers-color-scheme: dark)", color: "#101010" },
-  ],
+  themeColor: "#1D4ED8", // Warna utama Playful Tactile SDIT Fajar
 };
 
 export default function RootLayout({

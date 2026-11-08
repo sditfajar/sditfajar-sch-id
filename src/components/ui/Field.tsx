@@ -8,6 +8,7 @@ export interface FieldProps {
   hint?: string;
   error?: string;
   className?: string;
+  asGroup?: boolean;
   children: React.ReactNode | ((props: {
     id: string;
     "aria-describedby"?: string;
@@ -22,6 +23,7 @@ export function Field({
   hint,
   error,
   className,
+  asGroup = false,
   children,
 }: FieldProps) {
   const generatedId = React.useId();
@@ -39,23 +41,40 @@ export function Field({
   };
 
   return (
-    <div className={cn("flex flex-col gap-1.5 w-full text-left", className)}>
-      {label && (
-        <label
-          htmlFor={id}
-          className="text-sm font-medium text-foreground flex items-center justify-between"
-        >
-          <span>
-            {label}
-            {required && <span className="text-danger ml-1" aria-hidden="true">*</span>}
+    <div
+      role={asGroup ? "group" : undefined}
+      aria-labelledby={asGroup && label ? `${id}-label` : undefined}
+      className={cn("flex flex-col gap-1.5 w-full text-left", className)}
+    >
+      {label &&
+        (asGroup ? (
+          <span
+            id={`${id}-label`}
+            className="text-sm font-medium text-foreground flex items-center justify-between"
+          >
+            <span>
+              {label}
+              {required && <span className="text-danger ml-1" aria-hidden="true">*</span>}
+            </span>
           </span>
-        </label>
-      )}
+        ) : (
+          <label
+            htmlFor={id}
+            className="text-sm font-medium text-foreground flex items-center justify-between"
+          >
+            <span>
+              {label}
+              {required && <span className="text-danger ml-1" aria-hidden="true">*</span>}
+            </span>
+          </label>
+        ))}
 
       {typeof children === "function"
         ? children(childProps)
         : React.isValidElement(children)
-        ? React.cloneElement(children as React.ReactElement<Record<string, unknown>>, childProps)
+        ? asGroup
+          ? children
+          : React.cloneElement(children as React.ReactElement<Record<string, unknown>>, childProps)
         : children}
 
       {hint && !error && (

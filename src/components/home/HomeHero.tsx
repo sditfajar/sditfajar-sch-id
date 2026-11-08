@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  Sparkles,
   ArrowRight,
   BadgeCheck,
   BookOpen,
@@ -60,8 +59,11 @@ export function HomeHero({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }: H
             <span>Penerimaan Murid Baru T.A. {academicYear} Dibuka</span>
           </div>
 
-          {/* Main Title */}
+          {/* Main Title (H1 Semantik & Alami untuk SEO Kata Kunci Utama) */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-[1.15] text-balance">
+            <span className="block text-lg sm:text-xl lg:text-2xl font-bold text-[#1D4ED8] mb-1.5 sm:mb-2 tracking-normal">
+              SDIT Fajar Depok – Sekolah Dasar Islam Terpadu
+            </span>
             Membentuk Generasi{" "}
             <span className="text-[#1D4ED8] relative inline-block whitespace-nowrap">
               Qur&apos;ani
@@ -85,8 +87,8 @@ export function HomeHero({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }: H
 
           {/* Description */}
           <p className="text-sm sm:text-base lg:text-lg text-[#434655] max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-            Sekolah Dasar Islam Terpadu ramah anak di Kota Depok yang memadukan kurikulum nasional
-            dan nilai-nilai Islami dalam suasana belajar yang menyenangkan, aman, dan eksploratif.
+            Pilihan sekolah di Depok yang memadukan Kurikulum Merdeka nasional, program tahfidz &amp; tahsin,
+            dan pembinaan adab Islami dalam suasana belajar ramah anak yang menyenangkan dan aman.
           </p>
 
           {/* CTA Action Buttons */}

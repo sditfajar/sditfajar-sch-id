@@ -55,12 +55,12 @@ export function RadioChips({
             key={option.value}
             htmlFor={inputId}
             className={cn(
-              "relative inline-flex items-center justify-center min-h-[44px] px-4 py-2 text-sm font-medium rounded-control transition-all duration-150 ease-out cursor-pointer select-none",
-              "focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2",
+              "relative inline-flex items-center justify-center min-h-[44px] px-4 py-2 text-sm font-medium rounded-xl transition-all duration-150 ease-out cursor-pointer select-none",
+              "focus-within:ring-2 focus-within:ring-[#1D4ED8] focus-within:ring-offset-2",
               isSelected
-                ? "bg-accent text-white shadow-sm font-semibold dark:text-white"
-                : "bg-surface text-foreground shadow-border hover:shadow-border-hover",
-              isDisabled && "opacity-50 cursor-not-allowed hover:shadow-border",
+                ? "bg-[#1D4ED8] text-white font-extrabold border-2 border-[#173fa8] shadow-[0_3px_0_#173fa8] active:translate-y-0.5 active:shadow-[0_1px_0_#173fa8]"
+                : "bg-white text-[#0F172A] border-2 border-slate-200/90 shadow-[0_2px_0_#e2e8f0] hover:border-[#1D4ED8]/60 hover:bg-[#F2F3FF]/40 active:translate-y-0.5 active:shadow-[0_1px_0_#e2e8f0]",
+              isDisabled && "opacity-50 cursor-not-allowed hover:shadow-none hover:border-slate-200",
               itemClassName
             )}
           >

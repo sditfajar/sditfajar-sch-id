@@ -37,19 +37,21 @@ export function Stepper({
       {...props}
     >
       {/* Mobile progress indicator info */}
-      <div className="flex items-center justify-between text-xs mb-2 sm:hidden text-slate-600 font-medium">
+      <div className="flex items-center justify-between text-xs mb-2.5 sm:hidden text-[#434655] font-medium">
         <span>
           Langkah {currentStep} dari {steps.length}:{" "}
-          <strong className="text-slate-900">{activeStep.shortTitle || activeStep.title}</strong>
+          <strong className="text-[#0F172A] font-bold">{activeStep.shortTitle || activeStep.title}</strong>
         </span>
-        <span className="font-semibold text-[#1D4ED8]">{Math.round(progressPercent)}%</span>
+        <span className="font-extrabold text-[#1D4ED8] bg-[#E2E7FF] px-2 py-0.5 rounded-full text-[11px]">
+          {Math.round(progressPercent)}%
+        </span>
       </div>
 
-      {/* Bar progres visual garis atas */}
-      <div className="relative mb-3.5">
-        <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+      {/* Bar progres visual garis atas bergaya Playful Stitch */}
+      <div className="relative mb-4">
+        <div className="h-2 w-full bg-[#E2E7FF] rounded-full overflow-hidden p-0.5 shadow-inner">
           <div
-            className="h-full bg-gradient-to-r from-[#1D4ED8] to-[#2563EB] transition-all duration-300 ease-out"
+            className="h-full bg-gradient-to-r from-[#1D4ED8] via-[#2563EB] to-[#F97316] rounded-full transition-all duration-300 ease-out shadow-xs"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -66,20 +68,21 @@ export function Stepper({
             <li
               key={step.number}
               className={cn(
-                "flex items-center gap-2.5 text-left select-none transition-colors",
-                isClickable && "cursor-pointer group hover:opacity-85"
+                "flex items-center gap-2 sm:gap-2.5 text-left select-none transition-colors",
+                isClickable && "cursor-pointer group hover:opacity-90"
               )}
               onClick={() => isClickable && onStepClick(step.number)}
+              title={isClickable ? `Kembali ke Langkah ${step.number}: ${step.title}` : undefined}
             >
-              {/* Lingkaran nomor / centang */}
+              {/* Lingkaran nomor / centang Tactile Chunky */}
               <div
                 className={cn(
-                  "h-8 w-8 sm:h-9 sm:w-9 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold tabular-nums transition-all duration-200",
+                  "h-8 w-8 sm:h-9 sm:w-9 min-h-[32px] min-w-[32px] rounded-full flex items-center justify-center text-xs sm:text-sm font-bold tabular-nums transition-all duration-200 shrink-0",
                   isCompleted
-                    ? "bg-[#10B981] text-white shadow-xs"
+                    ? "bg-[#10B981] text-white shadow-[0_3px_0_#047857] group-hover:scale-105"
                     : isCurrent
-                    ? "bg-[#1D4ED8] text-white shadow-sm ring-4 ring-[#1D4ED8]/15"
-                    : "bg-white border border-slate-200 text-slate-600"
+                    ? "bg-[#1D4ED8] text-white shadow-[0_4px_0_#173fa8] ring-4 ring-[#1D4ED8]/15"
+                    : "bg-[#F2F3FF] border-2 border-[#DAE2FD] text-[#434655]"
                 )}
                 aria-current={isCurrent ? "step" : undefined}
               >
@@ -91,19 +94,19 @@ export function Stepper({
               </div>
 
               {/* Judul langkah */}
-              <div className="flex flex-col">
-                <span className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider hidden sm:block">
+              <div className="flex flex-col min-w-0">
+                <span className="text-[10px] font-bold text-[#434655] uppercase tracking-wider hidden sm:block">
                   Langkah {step.number}
                 </span>
                 <span
                   className={cn(
-                    "text-xs sm:text-sm font-semibold transition-colors leading-tight",
+                    "text-xs sm:text-sm font-semibold transition-colors leading-tight truncate",
                     isCurrent
-                      ? "text-[#0F172A]"
+                      ? "text-[#0F172A] font-extrabold"
                       : isCompleted
-                      ? "text-slate-700"
-                      : "text-slate-600",
-                    !isCurrent && "hidden md:inline"
+                      ? "text-slate-700 font-medium"
+                      : "text-[#434655]",
+                    !isCurrent && "hidden sm:inline"
                   )}
                 >
                   <span className="sm:hidden">{step.shortTitle || step.title}</span>
