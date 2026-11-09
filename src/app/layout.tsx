@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Plus_Jakarta_Sans } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme";
 import { siteConfig, siteUrl } from "@/lib/seo";
 import "./globals.css";
@@ -100,7 +101,10 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${plusJakartaSans.variable} font-sans antialiased min-h-screen`}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
   );
