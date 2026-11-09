@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Phone, MessageCircle, Menu, X, ArrowRight } from "lucide-react";
 import { SCHOOL_CONFIG } from "@/lib/config";
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface HomeNavbarProps {
   academicYear?: string;
@@ -17,6 +20,169 @@ export function HomeNavbar({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }:
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const hamburgerButtonRef = useRef<HTMLButtonElement>(null);
+
+  // State untuk sliding active indicator
+  const [activeId, setActiveId] = useState<string>("");
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const [isReady, setIsReady] = useState(false);
+
+  const navRef = useRef<HTMLElement>(null);
+  const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const isProgrammaticScroll = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Inisialisasi activeId dari window.location.hash setelah mount (hindari hydration mismatch)
+  useEffect(() => {
+    const syncInitialActiveId = () => {
+      if (pathname === "/") {
+        const hash = window.location.hash.replace("#", "");
+        const validSections = [
+          "profil-sekolah",
+          "program-unggulan",
+          "kurikulum",
+          "ekstrakurikuler",
+          "sejarah",
+        ];
+        if (validSections.includes(hash)) {
+          setActiveId(hash);
+        } else {
+          setActiveId("");
+        }
+      } else {
+        setActiveId("");
+      }
+    };
+
+    const rafId = requestAnimationFrame(syncInitialActiveId);
+    return () => cancelAnimationFrame(rafId);
+  }, [pathname]);
+
+  // Pengukuran posisi & lebar item aktif
+  useIsomorphicLayoutEffect(() => {
+    if (pathname !== "/") {
+      setIsReady(false);
+      return;
+    }
+
+    const targetEl = itemRefs.current.get(activeId);
+    if (targetEl) {
+      setIndicatorStyle({
+        left: targetEl.offsetLeft,
+        width: targetEl.offsetWidth,
+      });
+
+      if (!isReady) {
+        // Matikan transisi saat pengukuran awal pertama kali mount
+        const raf = requestAnimationFrame(() => {
+          setIsReady(true);
+        });
+        return () => cancelAnimationFrame(raf);
+      }
+    }
+  }, [activeId, pathname, isReady]);
+
+  // Observer untuk resize & perubahan font agar indikator tetap presisi
+  useEffect(() => {
+    if (pathname !== "/" || !navRef.current) return;
+
+    const handleResize = () => {
+      const targetEl = itemRefs.current.get(activeId);
+      if (targetEl) {
+        setIndicatorStyle({
+          left: targetEl.offsetLeft,
+          width: targetEl.offsetWidth,
+        });
+      }
+    };
+
+    const observer = new ResizeObserver(handleResize);
+    observer.observe(navRef.current);
+
+    window.addEventListener("resize", handleResize);
+    document.fonts?.ready?.then(handleResize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [activeId, pathname]);
+
+  // Scroll-spy untuk memperbarui activeId saat pengguna scroll manual
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sectionIds = [
+      "profil-sekolah",
+      "program-unggulan",
+      "kurikulum",
+      "ekstrakurikuler",
+      "sejarah",
+    ];
+
+    let ticking = false;
+
+    const handleScrollSpy = () => {
+      if (isProgrammaticScroll.current) return;
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (isProgrammaticScroll.current) {
+            ticking = false;
+            return;
+          }
+
+          const scrollY = window.scrollY;
+
+          // Jika scroll di bagian atas (hero section), aktifkan Beranda
+          if (scrollY < 200) {
+            setActiveId("");
+            ticking = false;
+            return;
+          }
+
+          // Cek apakah sudah di bagian paling bawah halaman
+          const isAtBottom =
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 60;
+
+          if (isAtBottom) {
+            setActiveId("sejarah");
+            ticking = false;
+            return;
+          }
+
+          // Threshold offset navbar (~160px)
+          const offsetThreshold = 160;
+          let current = "";
+
+          for (const id of sectionIds) {
+            const el = document.getElementById(id);
+            if (el) {
+              const top = el.offsetTop - offsetThreshold;
+              if (scrollY >= top) {
+                current = id;
+              }
+            }
+          }
+
+          setActiveId(current);
+          ticking = false;
+        });
+
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScrollSpy, { passive: true });
+    handleScrollSpy();
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollSpy);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,6 +254,22 @@ export function HomeNavbar({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }:
     sectionId: string
   ) => {
     setMobileMenuOpen(false);
+
+    // Kunci scroll-spy sementara agar indikator tidak melompat selama smooth scroll
+    isProgrammaticScroll.current = true;
+    setActiveId(sectionId);
+
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+
+    const unlockScroll = () => {
+      isProgrammaticScroll.current = false;
+      window.removeEventListener("scrollend", unlockScroll);
+    };
+
+    window.addEventListener("scrollend", unlockScroll, { once: true });
+    scrollTimeoutRef.current = setTimeout(unlockScroll, 800);
 
     // Jika sudah di halaman utama ("/"), gunakan smooth scroll langsung tanpa reload
     if (pathname === "/") {
@@ -202,17 +384,44 @@ export function HomeNavbar({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }:
         </Link>
 
         {/* Desktop Navigation (>= 1025px) */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#F2F3FF]/70 p-1.5 rounded-full border border-[#DAE2FD]/60">
-          {navLinks.map((item, idx) => {
-            const isActive = idx === 0 && pathname === "/";
+        <nav
+          ref={navRef}
+          className="relative hidden lg:flex items-center gap-1 bg-[#F2F3FF]/70 p-1.5 rounded-full border border-[#DAE2FD]/60"
+        >
+          {/* Sliding Active Pill Indicator */}
+          <span
+            aria-hidden="true"
+            className={`absolute inset-y-1.5 left-0 rounded-full bg-[#1D4ED8] shadow-sm pointer-events-none z-0 motion-reduce:transition-none ${
+              isReady
+                ? "transition-[transform,width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                : "transition-none"
+            } ${
+              pathname === "/" && isReady && indicatorStyle.width > 0 ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              transform: `translateX(${indicatorStyle.left}px)`,
+              width: `${indicatorStyle.width}px`,
+            }}
+          />
+
+          {navLinks.map((item) => {
+            const isActive = pathname === "/" && activeId === item.sectionId;
             return (
               <Link
                 key={item.label}
+                ref={(el) => {
+                  if (el) {
+                    itemRefs.current.set(item.sectionId, el);
+                  } else {
+                    itemRefs.current.delete(item.sectionId);
+                  }
+                }}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.sectionId)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                aria-current={isActive ? (item.sectionId === "" ? "page" : "location") : undefined}
+                className={`relative z-10 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-colors duration-200 ${
                   isActive
-                    ? "bg-[#1D4ED8] text-white shadow-sm"
+                    ? "text-white"
                     : "text-slate-600 hover:text-[#1D4ED8] hover:bg-white/80"
                 }`}
               >
@@ -285,13 +494,14 @@ export function HomeNavbar({ academicYear = SCHOOL_CONFIG.defaultAcademicYear }:
             </div>
 
             <div className="bg-[#F2F3FF]/60 border border-[#DAE2FD]/60 rounded-2xl p-1.5 flex flex-col gap-1 backdrop-blur-xs">
-              {navLinks.map((item, idx) => {
-                const isActive = idx === 0 && pathname === "/";
+              {navLinks.map((item) => {
+                const isActive = pathname === "/" && activeId === item.sectionId;
                 return (
                   <Link
                     key={item.label}
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.sectionId)}
+                    aria-current={isActive ? (item.sectionId === "" ? "page" : "location") : undefined}
                     className={`group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-sm transition-all min-h-[44px] ${
                       isActive
                         ? "bg-white text-[#1D4ED8] shadow-xs border border-white/80"

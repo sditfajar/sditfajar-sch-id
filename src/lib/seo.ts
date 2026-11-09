@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const rawUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://spmb.sditfajar.sch.id";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.sditfajar.sch.id";
 export const siteUrl = rawUrl.replace(/\/+$/, "");
 
 export const siteConfig = {

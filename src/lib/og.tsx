@@ -81,7 +81,7 @@ async function loadLogo() {
 
 export async function renderOg({ title, subtitle, badge }: OgInput) {
   const [fonts, logo] = await Promise.all([loadFonts(), loadLogo()]);
-  let host = "spmb.sditfajar.sch.id";
+  let host = "www.sditfajar.sch.id";
   try {
     host = new URL(siteUrl).host;
   } catch {

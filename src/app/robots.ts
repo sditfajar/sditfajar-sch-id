@@ -3,21 +3,27 @@ import { siteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: [
-        "/admin",
-        "/admin/",
-        "/admin/*",
-        "/berhasil/",
-        "/berhasil/*",
-        "/api/",
-        "/api/*",
-        "/dev/",
-        "/dev/*",
-      ],
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: [
+          "/admin",
+          "/admin/",
+          "/admin/*",
+          "/berhasil/",
+          "/berhasil/*",
+          "/api/",
+          "/api/*",
+          "/dev/",
+          "/dev/*",
+        ],
+      },
+      {
+        userAgent: "Googlebot-Image",
+        allow: "/",
+      },
+    ],
     sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

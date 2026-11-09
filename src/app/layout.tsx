@@ -22,7 +22,21 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    apple: "/apple-icon.png",
+    other: [
+      {
+        rel: "icon",
+        url: "/icon.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+      {
+        rel: "icon",
+        url: "/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+    ],
   },
   title: {
     default: siteConfig.defaultTitle,
